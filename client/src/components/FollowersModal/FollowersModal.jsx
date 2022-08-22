@@ -3,7 +3,7 @@ import { Modal, useMantineTheme } from "@mantine/core";
 import FollowersCard from "../FollowersCard/FollowersCard";
 
 const FollowersModal = ({ modalOpened, setModalOpened }) => {
-  const theme = useMantineTheme();
+  const theme = useMantineTheme({});
   return (
     <Modal
       overlayColor={
@@ -12,13 +12,13 @@ const FollowersModal = ({ modalOpened, setModalOpened }) => {
           : theme.colors.gray[2]
       }
       overlayOpacity={0.55}
-      overlayBlur={3}
+      overlayBlur={5}
       size="55%"
+      background-color="#000"
       opened={modalOpened}
       onClose={() => setModalOpened(false)}
     >
-
-    <FollowersCard location='modal'/>
+      <FollowersCard location="modal" />
     </Modal>
   );
 };
