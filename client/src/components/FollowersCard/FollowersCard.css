@@ -10,8 +10,11 @@
     background-color:transparent;
 }
 .mantine-5rr5mu{
-    background-color:transparent;
+    box-shadow:none;
+    background-color: #fff;
+    height: 100%;
 }
+
 .follower{
     display: flex;
     justify-content: space-between;

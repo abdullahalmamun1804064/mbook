@@ -7,6 +7,8 @@ import mongoose from "mongoose";
 export const createPost = async (req, res) => {
   const newPost = new PostModel(req.body);
 
+  const user = await UserModel.findById(newPost.userId);
+  newPost.username= user.username;
   try {
     await newPost.save();
     res.status(200).json(newPost);
@@ -22,6 +24,7 @@ export const getPost = async (req, res) => {
 
   try {
     const post = await PostModel.findById(id);
+    console.log(post);
     res.status(200).json(post);
   } catch (error) {
     res.status(500).json(error);
@@ -113,7 +116,9 @@ export const getTimelinePosts = async (req, res) => {
         .concat(...followingPosts[0].followingPosts)
         .sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
-        })
+        }),
+
+      // console.log(currentUserPosts,"----------postConteroller--------------"),
     );
   } catch (error) {
     res.status(500).json(error);

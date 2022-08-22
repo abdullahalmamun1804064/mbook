@@ -12,7 +12,8 @@ const Post = ({ data }) => {
   const [liked, setLiked] = useState(data.likes.includes(user._id));
   const [likes, setLikes] = useState(data.likes.length)
 
-  
+   console.log(data,"-------mamun------post");
+
   const handleLike = () => {
     likePost(data._id, user._id);
     setLiked((prev) => !prev);
@@ -20,6 +21,28 @@ const Post = ({ data }) => {
   };
   return (
     <div className="Post">
+      <div className="">
+        <samp
+          style={{
+            fontWeight: "bold",
+            fontSize: "20px",
+            lineHeight: "1.5",
+            textTransform: "capitalize",
+            color: "orange",
+          }}
+        >
+          {data.username}
+        </samp>
+        <br />
+        <span
+          style={{
+            fontSize: "10px",
+            color: "orange",
+          }}
+        >
+          {data.updatedAt.toString("dd-yyyy-MM")}
+        </span>
+      </div>
       <img
         src={data.image ? process.env.REACT_APP_PUBLIC_FOLDER + data.image : ""}
         alt=""
