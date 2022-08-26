@@ -1,0 +1,14 @@
+.Liker{
+  /* border: 1px solid orange; */
+  border-radius: 5px;
+  padding:0 10px ;
+  margin: 10px;
+}
+.likerContainer{
+display: flex;
+
+}
+.likerContainer img{
+  border-radius: 50%;
+  margin:10px 15px 10px 0;
+}
