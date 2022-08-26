@@ -6,13 +6,15 @@ import Heart from "../../img/like.png";
 import NotLike from "../../img/notlike.png";
 import { likePost } from "../../api/PostsRequests";
 import { useSelector } from "react-redux";
+import Liker from "./Liker";
+
 
 const Post = ({ data }) => {
   const { user } = useSelector((state) => state.authReducer.authData);
   const [liked, setLiked] = useState(data.likes.includes(user._id));
   const [likes, setLikes] = useState(data.likes.length)
 
-   console.log(data,"-------mamun------post");
+
 
   const handleLike = () => {
     likePost(data._id, user._id);
@@ -58,10 +60,9 @@ const Post = ({ data }) => {
         {/* <img src={Comment} alt="" />
         <img src={Share} alt="" /> */}
       </div>
+      
+      <Liker data={data} likes={likes} />
 
-      <span style={{ color: "var(--gray)", fontSize: "12px" }}>
-        {likes} likes
-      </span>
       <div className="detail">
         <span>
           <b>{data.name} </b>

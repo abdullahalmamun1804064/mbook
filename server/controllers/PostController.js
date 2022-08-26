@@ -69,22 +69,50 @@ export const deletePost = async (req, res) => {
 export const likePost = async (req, res) => {
   const id = req.params.id;
   const { userId } = req.body;
+ // const liker;
   try {
     const post = await PostModel.findById(id);
     if (post.likes.includes(userId)) {
       await post.updateOne({ $pull: { likes: userId } });
+
+
+       await post.updateOne({ $set: { liker: [] } });
+       post.likes.map(async (likerUser) => {
+         const likePostUser = await UserModel.findById(likerUser);
+         await post.updateOne({ $push: { liker: likePostUser } });
+       });
+      const likePostUser = await UserModel.findById(userId);
+      await post.updateOne({ $pull: { liker: likePostUser } });
+      
+      
       res.status(200).json("Post disliked");
     } else {
       await post.updateOne({ $push: { likes: userId } });
+
+
+       await post.updateOne({ $set: { liker: [] } });
+       post.likes.map(async (likerUser) => {
+         const likePostUser = await UserModel.findById(likerUser);
+         await post.updateOne({ $push: { liker: likePostUser } });
+       });
+      
+       const likePostUser = await UserModel.findById(userId);
+       await post.updateOne({ $push: { liker: likePostUser } });
+      
       res.status(200).json("Post liked");
     }
+
+
+
   } catch (error) {
     res.status(500).json(error);
   }
 };
 
+
 // Get timeline posts
 export const getTimelinePosts = async (req, res) => {
+
   const userId = req.params.id
   try {
     const currentUserPosts = await PostModel.find({ userId: userId });
@@ -111,15 +139,28 @@ export const getTimelinePosts = async (req, res) => {
       },
     ]);
 
-    res.status(200).json(
-      currentUserPosts
+    const allTimeLinePost=currentUserPosts
         .concat(...followingPosts[0].followingPosts)
         .sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
-        }),
+        })
+        
+    // allTimeLinePost.map(async (post) => {
+    //   //  post.liker.dropIndexs();
+    //      await post.findOneAndUpdate({ $set: { liker: [] } });
 
-      // console.log(currentUserPosts,"----------postConteroller--------------"),
-    );
+    //       let likePostUser;
+
+    //     post.likes.map(async(likerUser) => {
+    //       likePostUser = await UserModel.findById(likerUser);
+    //       await post.updateOne({ $push: { liker: likePostUser } });
+
+    //     }); 
+
+    // })
+     
+        
+        res.status(200).json(allTimeLinePost);
   } catch (error) {
     res.status(500).json(error);
   }
