@@ -13,6 +13,7 @@
     box-shadow:none;
     background-color: #fff;
     height: 100%;
+    overflow: scroll;
 }
 
 .follower{
